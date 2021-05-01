@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dumpling Cloud</title>
+    <link rel="stylesheet" th:href="@{/styles.css}"> <!-- context-relative path -->
+</head>
+<body>
+    <h1>Design your dumplings!</h1>
+    <img th:src="@{/images/DumplingCloud.png}">
+
+    <form method="post" th:object="${design}">
+    <div class="grid">
+
+        <!-- wrappers -->
+        <div class="ingredient-group" id="wrappers">
+            <h3>Designate your wrappers:</h3>
+            <div th:each="ingredient : ${wrapper}">
+                <input name="ingredients" type="radio" th:value="${ingredient.id}">
+                <span th:text="${ingredient.name}">INGREDIENT</span><br>
+            </div>
+        </div>
+
+        <!-- proteins -->
+        <div class="ingredient-group" id="proteins">
+            <h3>Designate your protein:</h3>
+            <div th:each="ingredient : ${protein}">
+                <input name="ingredients" type="checkbox" th:value="${ingredient.id}">
+                <span th:text="${ingredient.name}">INGREDIENT</span><br>
+            </div>
+        </div>
+
+        <!-- veggies -->
+        <div class="ingredient-group" id="veggies">
+            <h3>Designate your veggies:</h3>
+            <div th:each="ingredient : ${veggies}">
+                <input name="ingredients" type="checkbox" th:value="${ingredient.id}">
+                <span th:text="${ingredient.name}">INGREDIENT</span><br>
+            </div>
+        </div>
+
+        <!-- cheeses -->
+        <div class="ingredient-group" id="cheeses">
+            <h3>Designate your cheese:</h3>
+            <div th:each="ingredient : ${cheese}">
+                <input name="ingredients" type="checkbox" th:value="${ingredient.id}">
+                <span th:text="${ingredient.name}">INGREDIENT</span><br>
+            </div>
+        </div>
+
+        <!-- sauces -->
+        <div class="ingredient-group" id="sauces">
+            <h3>Designate your sauce:</h3>
+            <div th:each="ingredient : ${sauce}">
+                <input name="ingredients" type="checkbox" th:value="${ingredient.id}">
+                <span th:text="${ingredient.name}">INGREDIENT</span><br>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <h3>Name your dumpling creation:</h3>
+        <input type="text" th:field="*{name}"><br>
+        <button>Submit your dumpling</button>
+    </div>
+    </form>
+</body>
+</html>
