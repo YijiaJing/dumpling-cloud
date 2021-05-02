@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/design")
 public class DesignDumplingController {
 
-    @GetMapping
-    public String showDesignForm(Model model) {
+    @ModelAttribute
+    public void addIngredientsToModel(Model model) {
         List<Ingredient> ingredients = Arrays.asList(
                 new Ingredient("EGRL", "Egg Roll Wrapper", Ingredient.Type.WRAPPER),
                 new Ingredient("GYZA", "Gyoza Wrapper", Ingredient.Type.WRAPPER),
@@ -45,14 +45,16 @@ public class DesignDumplingController {
         for (Type type: types) {
             model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients, type));
         }
+    }
 
+    @GetMapping
+    public String showDesignForm(Model model) {
         model.addAttribute("design", new Dumpling());
-
         return "design";
     }
 
     @PostMapping
-    public String processDesign(@Valid Dumpling design, Errors errors) {
+    public String processDesign(@Valid @ModelAttribute("design") Dumpling design, Errors errors) {
         if (errors.hasErrors()) {
             return "design";
         }

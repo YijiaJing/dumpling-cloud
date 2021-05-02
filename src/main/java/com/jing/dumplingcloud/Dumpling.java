@@ -16,6 +16,8 @@ public class Dumpling {
     @Size(min=3, message="Name must be at least 3 characters long")
     private String name;
 
+    @NotNull(message="You must choose at least 1 ingredient")
     @Size(min=1, message="You must choose at least 1 ingredient")
     private List<String> ingredients;
+
 }
