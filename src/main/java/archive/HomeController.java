@@ -1,4 +1,4 @@
-package com.jing.dumplingcloud.web;
+package archive;//package com.jing.dumplingcloud.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

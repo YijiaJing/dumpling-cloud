@@ -1,12 +1,15 @@
 package com.jing.dumplingcloud.web;
 
+import com.jing.dumplingcloud.data.IngredientRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import javax.validation.Valid;
 import org.springframework.validation.Errors;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,23 +27,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/design")
 public class DesignDumplingController {
 
+    private final IngredientRepository ingredientRepo;
+
+    @Autowired
+    public DesignDumplingController(IngredientRepository ingredientRepo) {
+        this.ingredientRepo = ingredientRepo;
+    }
+
     @ModelAttribute
     public void addIngredientsToModel(Model model) {
-        List<Ingredient> ingredients = Arrays.asList(
-                new Ingredient("EGRL", "Egg Roll Wrapper", Ingredient.Type.WRAPPER),
-                new Ingredient("GYZA", "Gyoza Wrapper", Ingredient.Type.WRAPPER),
-                new Ingredient("WTON", "Wonton Wrappers", Ingredient.Type.WRAPPER),
-                new Ingredient("BEEF", "Beef", Ingredient.Type.PROTEIN),
-                new Ingredient("PORK", "Pork", Ingredient.Type.PROTEIN),
-                new Ingredient("CABG", "Cabbage", Ingredient.Type.VEGGIES),
-                new Ingredient("SLON", "Sliced Onions", Ingredient.Type.VEGGIES),
-                new Ingredient("CHED", "Cheddar", Ingredient.Type.CHEESE),
-                new Ingredient("VNGR", "Vinegar", Ingredient.Type.SAUCE),
-                new Ingredient("SOYS", "Soy Sauce", Ingredient.Type.SAUCE)
-        );
+
+//        List<Ingredient> ingredients = Arrays.asList(
+//                new Ingredient("EGRL", "Egg Roll Wrapper", Ingredient.Type.WRAPPER),
+//                new Ingredient("GYZA", "Gyoza Wrapper", Ingredient.Type.WRAPPER),
+//                new Ingredient("WTON", "Wonton Wrappers", Ingredient.Type.WRAPPER),
+//                new Ingredient("BEEF", "Beef", Ingredient.Type.PROTEIN),
+//                new Ingredient("PORK", "Pork", Ingredient.Type.PROTEIN),
+//                new Ingredient("CABG", "Cabbage", Ingredient.Type.VEGGIES),
+//                new Ingredient("SLON", "Sliced Onions", Ingredient.Type.VEGGIES),
+//                new Ingredient("CHED", "Cheddar", Ingredient.Type.CHEESE),
+//                new Ingredient("VNGR", "Vinegar", Ingredient.Type.SAUCE),
+//                new Ingredient("SOYS", "Soy Sauce", Ingredient.Type.SAUCE)
+//        );
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredientRepo.findAll().forEach(ingredients::add);
 
         Type[] types = Type.values();
-
         // Add an attribute with a name of the ingredient type and a list of ingredients of that type
         for (Type type: types) {
             model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients, type));
